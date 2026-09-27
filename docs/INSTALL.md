@@ -7,8 +7,8 @@ The project supplies patches and tools, not firmware downloads. Reconstruct imag
 ## SD-loaded trial
 
 1. Copy the generated `BOOT_DATA.BIN` to the root of the H4n's SD card and safely eject it.
-2. With the H4n off, insert the card. Hold **MENU + REC** while powering on to use the observed SD application loader.
-3. Open SYSTEM → VERSION. Expect **CUSTOM FIRMWARE**, version 1.9C and **DUPLEX 44.1/48k**.
+2. With the H4n off and USB disconnected, insert the card and use batteries or the barrel adapter. Hold **MENU + REC** while powering on to use the observed SD application loader.
+3. Open SYSTEM → VERSION. Expect the heading **RATE** and **DUPLEX 44.1/48k**. The numerical FW version comes from installed flash metadata and may remain 1.90 during an SD trial on an unmodified recorder.
 4. Test menus, SD recording/playback, auto-mute and USB audio before considering installation. For USB loopback testing, connect the headphone/line output to the combo inputs, turn **MONITOR OFF**, start with a low output volume and check levels. Avoid a monitor feedback loop.
 5. Power off and start normally without the shortcut to return to the installed application. Remove the trial file when it is no longer needed.
 
@@ -20,7 +20,7 @@ The SD loader was observed on bootloader 1.01. This does not establish compatibi
 2. Use reliable power and insert the card with the recorder off.
 3. Hold **PLAY/PAUSE** while powering on and follow the firmware-update prompts.
 4. Do not disconnect power or remove the card during the update.
-5. After completion, start normally. Confirm CUSTOM FIRMWARE / DUPLEX 44.1/48k and test the normal recorder functions.
+5. After completion, start normally. Confirm RATE / version 1.9C / DUPLEX 44.1/48k and test the normal recorder functions.
 
 MENU + REC loads the SD trial; it does not install SYSTEM.BIN. Leaving an older BOOT_DATA.BIN on the card can make a later SD boot look like the installed release, so keep track of which image you are using.
 
@@ -32,4 +32,6 @@ The project does not guarantee recovery after an interrupted update or bootloade
 
 ## macOS sample rates
 
-Select H4 4-IN/24 for capture and H4 2-OUT/16 for playback. Verify both are set to the same rate in Audio MIDI Setup. During development, selecting 44.1 kHz on the recorder left macOS at 48 kHz until both Core Audio devices were explicitly changed. A rate mismatch should be resolved before drawing conclusions about firmware failure.
+Select H4 4-IN/24 for capture and H4 2-OUT/16 for playback. Choose 44.1 or 48 kHz on the recorder before connecting USB audio. The current revision advertises only the selected rate for both streams, and automatic 48 → 44.1 → 48 kHz switching passed on the development Mac. Disconnect/reconnect USB audio through the H4n menu to change rates, and ensure the DAW project uses the same rate.
+
+Earlier builds and the official 1.90 firmware advertised both rates and could leave macOS at 48 kHz after selecting 44.1 kHz on the recorder. The observation was reproduced with official firmware; it did not establish an Apple defect. See [USB rate design](ARCHITECTURE.md#usb-rate-advertisement).

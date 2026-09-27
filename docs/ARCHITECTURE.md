@@ -16,6 +16,16 @@ Aligned 32-bit sample fetches are essential to the tested packet path. Earlier e
 
 macOS exposes capture and playback as separate devices. The names distinguish them; attempts to present them as one macOS device were not successful in the tested configuration.
 
+## USB rate advertisement
+
+The configuration descriptor is 174 bytes. Each stream has one discrete rate instead of two; its format, endpoints and USB device identity are unchanged. A hook at code 0xD79749 reads the existing selection at data word 0x6CB737 (0 = 44100, 1 = 48000). It writes the low/middle rate bytes in both format descriptors at words 0x6D9A07/08 and 0x6D9A3B/3C, replays the displaced AC0 setup, and resumes at 0xD7974D. The rate updates when the host requests the configuration descriptor, not as an in-session sample-rate switch.
+
+The helper occupies retired padding, the shortened VERSION heading tail and compacted descriptor tail. Two formerly executed padding regions have explicit bypass branches. Addresses are recorded in `patches/usb-rate-labels.json`. Changes to those areas must preserve the rate helper, just as audio helper allocations must be preserved.
+
+A same-identity, fixed-44.1 descriptor control made macOS select 44.1 automatically. The dynamic version then passed 48 → 44.1 → 48 reconnects. This supports making the descriptor unambiguous; it does not establish a macOS defect or prove compatibility with every host.
+
+`tools/verify_usb_rate.py` executes the actual hook bytes for 48 alternating selection cases, checks the exact four-word write set and return state, and checks descriptor contents. Its 432 request-length checks model truncation; they do not execute the entire USB control-transfer handler. Audio producer/serializer and smoothing instructions are unchanged from the previous release.
+
 ## Clock correction
 
 The producer begins at code 0x03D96D and normally copies 64 frames exactly. The existing occupancy controller requests a positive or negative correction through data word 0x7BD8. A positive correction produces 65 frames; a negative correction produces 63. The packet controller, ring allocation and aligned serializer remain unchanged.

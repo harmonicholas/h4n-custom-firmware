@@ -1,102 +1,176 @@
 {
-  "48000": {
-    "frames": 2880000,
-    "duration_seconds": 60.0,
-    "rate": 48000,
-    "channels": 4,
-    "bits": 24,
-    "peak_dbfs": [
-      -41.94919114508846,
-      -43.6799782466871,
-      -17.59565672163898,
-      -15.71821764083351
+  "revision": "dynamic-usb-rate",
+  "automatic_rate_transition": {
+    "sequence": [
+      48000,
+      44100,
+      48000
     ],
-    "full_scale_samples": [
-      0,
-      0,
-      0,
-      0
-    ],
-    "nonzero_low_byte_percent": [
-      99.60697916666666,
-      99.61017361111111,
-      99.66090277777778,
-      99.64701388888889
-    ],
-    "longest_zero_run_samples": [
-      1,
-      2,
-      1,
-      1
-    ],
-    "detected_tone_runs_seconds": [
-      [
-        3.3000000000000003,
-        7.300000000000001
-      ],
-      [
-        9.3,
-        13.3
-      ],
-      [
-        15.3,
-        27.3
-      ]
-    ],
-    "adjacent_identical_four_channel_frames": 0,
-    "tone_sequence_pass": true,
-    "limits": "Short functional duplex trial; not clock-quality, ENOB, long-run reliability or bit-perfect playback proof. Nominal-frequency 100ms tone projections.",
-    "callback_timestamp_discontinuities": 0,
-    "route_lost": false
+    "selected_and_available_rates_match": true,
+    "host_rate_written": false
   },
-  "44100": {
-    "frames": 2646000,
-    "duration_seconds": 60.0,
-    "rate": 44100,
-    "channels": 4,
-    "bits": 24,
-    "peak_dbfs": [
-      -21.99096879696398,
-      -15.493088010929753,
-      -17.59941015726568,
-      -15.73478499396809
-    ],
-    "full_scale_samples": [
-      0,
-      0,
-      0,
-      0
-    ],
-    "nonzero_low_byte_percent": [
-      99.60846560846561,
-      99.61182917611488,
-      99.66878306878307,
-      99.6574074074074
-    ],
-    "longest_zero_run_samples": [
-      1,
-      1,
-      1,
-      1
-    ],
-    "detected_tone_runs_seconds": [
-      [
-        3.3000000000000003,
-        7.300000000000001
+  "current_revision_and_control": {
+    "48000": {
+      "status": "Short functional duplex checks passed; repeated-frame count retained below",
+      "rate": 48000,
+      "capture_seconds": 60,
+      "playback_seconds": 28,
+      "tone_sequence_pass": true,
+      "clipped_samples": 0,
+      "adjacent_identical_four_channel_frames": 0,
+      "callback_timestamp_gaps": 0,
+      "route_lost": false,
+      "limitation": "Not long-run endurance or clock-quality proof; capture process wall time includes overhead and is not independent ADC clock measurement.",
+      "host_rate_written": false
+    },
+    "44100-first": {
+      "status": "Short functional duplex checks passed; repeated-frame count retained below",
+      "rate": 44100,
+      "capture_seconds": 60,
+      "playback_seconds": 28,
+      "tone_sequence_pass": true,
+      "clipped_samples": 0,
+      "adjacent_identical_four_channel_frames": 1,
+      "duplicate_frame_index": 425077,
+      "duplicate_time_seconds": 9.638934240362811,
+      "callback_timestamp_gaps": 0,
+      "route_lost": false,
+      "host_rate_written": false
+    },
+    "44100-repeat": {
+      "status": "Short functional duplex checks passed; repeated-frame count retained below",
+      "rate": 44100,
+      "capture_seconds": 60,
+      "playback_seconds": 28,
+      "tone_sequence_pass": true,
+      "clipped_samples": 0,
+      "adjacent_identical_four_channel_frames": 1,
+      "duplicate_frame_index": 1071182,
+      "duplicate_time_seconds": 24.28984126984127,
+      "callback_timestamp_gaps": 0,
+      "route_lost": false,
+      "host_rate_written": false
+    },
+    "44100-previous-build-control": {
+      "status": "Short functional duplex checks passed; repeated-frame count retained below",
+      "rate": 44100,
+      "capture_seconds": 60,
+      "playback_seconds": 28,
+      "tone_sequence_pass": true,
+      "clipped_samples": 0,
+      "adjacent_identical_four_channel_frames": 1,
+      "duplicate_indices": [
+        849926
       ],
-      [
-        9.3,
-        13.3
+      "duplicate_times_seconds": [
+        19.272698412698414
       ],
-      [
-        15.3,
-        27.3
-      ]
-    ],
-    "adjacent_identical_four_channel_frames": 0,
-    "tone_sequence_pass": true,
-    "limits": "Short functional duplex trial; not clock-quality, ENOB, long-run reliability or bit-perfect playback proof. Nominal-frequency 100ms tone projections.",
-    "callback_timestamp_discontinuities": 0,
-    "route_lost": false
-  }
+      "callback_timestamp_gaps": 0,
+      "route_lost": false,
+      "host_rate_written": false
+    }
+  },
+  "initial_smoothing_trials": {
+    "48000": {
+      "frames": 2880000,
+      "duration_seconds": 60.0,
+      "rate": 48000,
+      "channels": 4,
+      "bits": 24,
+      "peak_dbfs": [
+        -41.94919114508846,
+        -43.6799782466871,
+        -17.59565672163898,
+        -15.71821764083351
+      ],
+      "full_scale_samples": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nonzero_low_byte_percent": [
+        99.60697916666666,
+        99.61017361111111,
+        99.66090277777778,
+        99.64701388888889
+      ],
+      "longest_zero_run_samples": [
+        1,
+        2,
+        1,
+        1
+      ],
+      "detected_tone_runs_seconds": [
+        [
+          3.3000000000000003,
+          7.300000000000001
+        ],
+        [
+          9.3,
+          13.3
+        ],
+        [
+          15.3,
+          27.3
+        ]
+      ],
+      "adjacent_identical_four_channel_frames": 0,
+      "tone_sequence_pass": true,
+      "limits": "Short functional duplex trial; not clock-quality, ENOB, long-run reliability or bit-perfect playback proof. Nominal-frequency 100ms tone projections.",
+      "callback_timestamp_discontinuities": 0,
+      "route_lost": false
+    },
+    "44100": {
+      "frames": 2646000,
+      "duration_seconds": 60.0,
+      "rate": 44100,
+      "channels": 4,
+      "bits": 24,
+      "peak_dbfs": [
+        -21.99096879696398,
+        -15.493088010929753,
+        -17.59941015726568,
+        -15.73478499396809
+      ],
+      "full_scale_samples": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nonzero_low_byte_percent": [
+        99.60846560846561,
+        99.61182917611488,
+        99.66878306878307,
+        99.6574074074074
+      ],
+      "longest_zero_run_samples": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "detected_tone_runs_seconds": [
+        [
+          3.3000000000000003,
+          7.300000000000001
+        ],
+        [
+          9.3,
+          13.3
+        ],
+        [
+          15.3,
+          27.3
+        ]
+      ],
+      "adjacent_identical_four_channel_frames": 0,
+      "tone_sequence_pass": true,
+      "limits": "Short functional duplex trial; not clock-quality, ENOB, long-run reliability or bit-perfect playback proof. Nominal-frequency 100ms tone projections.",
+      "callback_timestamp_discontinuities": 0,
+      "route_lost": false
+    }
+  },
+  "limits": "Short functional tests; one repeated frame in each recent 44.1 trial and previous-build control, cause unresolved."
 }

@@ -26,9 +26,10 @@ def main():
     p.add_argument('--system', required=True, type=Path)
     p.add_argument('--sd', required=True, type=Path)
     p.add_argument('--output', required=True, type=Path)
+    p.add_argument('--revision', default='dynamic-usb-rate')
     args = p.parse_args()
     base = args.original.read_bytes()
-    patch = {'format': 'h4n-xor-v1', 'release': '1.9C', 'base': {'size': len(base), 'sha256': sha(base)}, 'targets': {}}
+    patch = {'format': 'h4n-xor-v1', 'release': '1.9C', 'revision': args.revision, 'base': {'size': len(base), 'sha256': sha(base)}, 'targets': {}}
     for variant, path in [('system', args.system), ('sd', args.sd)]:
         image = path.read_bytes()
         patch['targets'][variant] = make_target(base, image)

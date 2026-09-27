@@ -11,7 +11,8 @@ This project grew out of a working recorder, patient testing, and a question: wh
 - **REC shortcut** from the initial USB selection screen to 48 kHz audio-interface mode.
 - **Independent USB input levels**, four-channel meters, a sample-rate/depth badge, and all three input LEDs illuminated.
 - **Smoother USB clock correction**, spreading occasional sample insertions/removals across a short interpolation window.
-- A **CUSTOM FIRMWARE** version screen, with `DUPLEX 44.1/48k` and a summary of the custom functions. Startup version remains `1.9C`.
+- **Automatic USB rate advertisement**: both streams advertise the selected 44.1 or 48 kHz rate when connected.
+- A custom version screen headed **RATE**, with `DUPLEX 44.1/48k` and a summary of the custom functions. Startup version remains `1.9C`; this revision is identified as `dynamic-usb-rate` in the patch manifest.
 
 ## Compatibility and status
 
@@ -20,14 +21,15 @@ This project grew out of a working recorder, patient testing, and a question: wh
 | Original H4n, firmware 1.90, bootloader 1.01 | Development hardware |
 | H4n Pro / H4essential / other models | Unsupported; do not install |
 | Four-input capture + stereo output,48 kHz | 60-second capture including 28-second duplex playback passed |
-| Same test at 44.1 kHz | Passed |
+| Same test at 44.1 kHz | Functional tests passed; one repeated four-channel frame in each trial, also seen in the previous-build comparison |
+| Automatic 48 → 44.1 → 48 kHz reconnects on macOS | Passed without host rate changes |
 | Screen and controls during 48 kHz duplex | User confirmed responsive |
 | Windows / Linux hosts | Not validated by this project |
 | Final release packaging | Exact images reconstructed; maintainer confirmed installation, normal boot and final version screen |
 
 USB24 refers to 24 significant sample bits carried in 32-bit USB slots. It is not a claim of 24 effective ADC bits. These are short functional tests, not a guarantee of endurance or perceptual transparency. See [test evidence](docs/TESTING.md).
 
-On macOS, capture and playback appear as separate devices: **H4 4-IN/24** and **H4 2-OUT/16**. Select them separately in your DAW, or configure an Aggregate Device if your application requires one. The firmware does not merge them into a single macOS device. macOS can retain the previous rate: set both devices to the same 44.1 or 48 kHz rate in Audio MIDI Setup.
+On macOS, capture and playback appear as separate devices: **H4 4-IN/24** and **H4 2-OUT/16**. Select them separately in your DAW, or configure an Aggregate Device if your application requires one. The firmware does not merge them into a single macOS device. Select the rate on the H4n before connecting USB audio. This revision advertises only that rate; automatic 48 → 44.1 → 48 kHz switching was verified on macOS without manually changing either device. Changing rates still requires disconnecting/reconnecting USB audio through the recorder menu. Check that your DAW uses the same rate.
 
 ## Build your own image
 
@@ -40,6 +42,7 @@ Python 3.10 or newer is sufficient; no pip packages, compiler or radare2 are req
 ```sh
 python3 tools/patch_firmware.py /path/to/original/SYSTEM.BIN --variant sd --output build/BOOT_DATA.BIN
 python3 tools/verify_clock.py build/BOOT_DATA.BIN
+python3 tools/verify_usb_rate.py build/BOOT_DATA.BIN
 ```
 
 The tool requires this exact original image:
@@ -66,7 +69,7 @@ python3 -m unittest discover -s tests -v
 python3 tools/audit_public.py
 ```
 
-CI runs synthetic patch tests and a repository-content audit without downloading proprietary firmware. `verify_clock.py` additionally executes the actual released clock-correction opcodes in a bounded model when a locally reconstructed image is supplied. It is not a full DSP or peripheral emulator.
+CI runs synthetic patch tests and a repository-content audit without downloading proprietary firmware. `verify_clock.py` additionally executes the actual released clock-correction opcodes in a bounded model when a locally reconstructed image is supplied. `verify_usb_rate.py` models the released descriptor hook across both rate selections. These are not full DSP or peripheral emulators.
 
 - [Architecture and patch format](docs/ARCHITECTURE.md)
 - [Hardware test evidence and limits](docs/TESTING.md)
